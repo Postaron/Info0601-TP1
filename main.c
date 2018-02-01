@@ -5,41 +5,59 @@
 #include <ncurses.h>
 #include "ncurses.h"
 
-#define LARGEUR 20 /* Largeur de la fenêtre */
-#define HAUTEUR 10 /* Hauteur de la fenêtre */
-#define POSX 20	/* Position horizontale de la fenêtre */
-#define POSY 5	 /* Position verticale de la fenêtre */
+#define HAUTEUR 10
+#define LARGEUR 20
 
 int main(void)
 {
-	int ch;
-
+	WINDOW *fenetre = NULL;
+	int ch, err, sourisX, sourisY, bouton;
+	char message[] = "Bonjour";
 	/* Initialisation de ncurses */
 	ncurses_initialiser();
+	ncurses_souris();
+	scrollok(stdscr, TRUE);
 	ncurses_couleurs();
 	printw("Pressez F2 pour quitter le programme. Utilisez les flèches pour déplacer le curseur.\n");
-	printw("Bonjour");
+	move(LINES / 2, COLS / 2 - strlen(message));
 	refresh();
-
+	printw(message);
 	/* Routine principale */
 	while ((ch = getch()) != KEY_F(2))
 	{
-		ch = getch();
+
 		switch (ch)
 		{
+		case KEY_MOUSE:
+			if (souris_getpos(&sourisX, &sourisY, &bouton) == OK)
+			{
+			}
+			break;
 		case '1':
+			attroff(COLOR_PAIR(2));
+			attroff(COLOR_PAIR(3));
 			attron(COLOR_PAIR(1));
 			break;
-
 		case '2':
+			attroff(COLOR_PAIR(1));
+			attroff(COLOR_PAIR(3));
 			attron(COLOR_PAIR(2));
 			break;
-
 		case '3':
+			attroff(COLOR_PAIR(2));
+			attroff(COLOR_PAIR(1));
 			attron(COLOR_PAIR(3));
 			break;
 		}
+		err = move(1, 0);
+		if (err == ERR)
+		{
+			fprintf(stderr, "Erreur, move curseur\n");
+			ncurses_stopper();
+			exit(EXIT_FAILURE);
+		}
 		refresh();
+		printw(message);
 	}
 	ncurses_stopper();
 	return EXIT_SUCCESS;
