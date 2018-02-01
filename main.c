@@ -10,8 +10,14 @@
 
 int main(void)
 {
+	/**
+	 * Détermination position fenêtre de couleur : celle du milieu, le centre au-dessus du centre du terminal.
+	 * Largeur fenêtre : 10, hauteur : 20.
+	 * Écart entre fenêtre : 5.
+	 */
 	WINDOW *fenetre = NULL;
-	int ch, err, sourisX, sourisY, bouton;
+	int ch, err, sourisX, sourisY, bouton, posX, posY;
+	const int centreWX = COLS / 2, centreWY = LINES / 2;
 	char message[] = "Bonjour";
 	/* Initialisation de ncurses */
 	ncurses_initialiser();
@@ -19,7 +25,9 @@ int main(void)
 	scrollok(stdscr, TRUE);
 	ncurses_couleurs();
 	printw("Pressez F2 pour quitter le programme. Utilisez les flèches pour déplacer le curseur.\n");
-	move(LINES / 2, COLS / 2 - strlen(message));
+	posY = centreWY;
+	posX = centreWX - ((int)strlen(message));
+	move(posY, posX);
 	refresh();
 	printw(message);
 	/* Routine principale */
