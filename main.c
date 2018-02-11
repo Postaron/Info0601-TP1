@@ -1,8 +1,8 @@
+#include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
-#include <ncurses.h>
+
 #include "ncurses.h"
 
 #define HAUTEUR 10
@@ -24,9 +24,10 @@ int main(void)
 	ncurses_souris();
 	scrollok(stdscr, TRUE);
 	ncurses_couleurs();
-	printw("Pressez F2 pour quitter le programme. Utilisez les flèches pour déplacer le curseur.\n");
+	printw(
+			"Pressez F2 pour quitter le programme. Utilisez les flèches pour déplacer le curseur.\n");
 	posY = centreWY;
-	posX = centreWX - ((int)strlen(message));
+	posX = centreWX - ((int) strlen(message));
 	move(posY, posX);
 	refresh();
 	printw(message);
