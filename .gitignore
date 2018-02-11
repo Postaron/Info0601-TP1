@@ -1,4 +1,6 @@
 .vscode/
 *.json
 *.bak
-
+.cproject
+.project
+.settings/
